@@ -1,4 +1,7 @@
 
+import scipy.stats as stats
+import pandas as pd
+import numpy as np
 def Cohen_d(group1, group2, correction = False):
     """Compute Cohen's d
     d = (group1.mean()-group2.mean())/pool_variance.
@@ -58,6 +61,7 @@ def find_outliers_Z(data):
     >> good_data = df[~idx_outs].copy()
     """
     import scipy.stats as stats
+    import pandas as pd
     import numpy as np
     ## Calculate z-scores
     zs = stats.zscore(data)
