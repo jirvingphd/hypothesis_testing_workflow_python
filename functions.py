@@ -58,6 +58,7 @@ def find_outliers_Z(data):
     >> good_data = df[~idx_outs].copy()
     """
     import scipy.stats as stats
+    import numpy as np
     ## Calculate z-scores
     zs = stats.zscore(data)
     
