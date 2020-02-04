@@ -57,6 +57,8 @@ def find_outliers_Z(data):
     >> idx_outs = find_outliers_df(df['AdjustedCompensation'])
     >> good_data = df[~idx_outs].copy()
     """
+    import pandas as pd
+    import numpy as np
     import scipy.stats as stats
     ## Calculate z-scores
     zs = stats.zscore(data)
