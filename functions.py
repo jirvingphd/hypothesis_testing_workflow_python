@@ -1,13 +1,10 @@
 import pandas as pd
 
-<<<<<<< HEAD
 import scipy.stats as stats
 import pandas as pd
 import numpy as np
+
 def Cohen_d(group1, group2, correction = False):
-=======
-def Cohen_d():
->>>>>>> online-ds-pt-100719-study-group
     """Compute Cohen's d
     d = (group1.mean()-group2.mean())/pool_variance.
     pooled_variance= (n1 * var1 + n2 * var2) / (n1 + n2)
@@ -130,7 +127,7 @@ def prep_data_for_tukeys(data):
     tukey = sms.stats.multicomp.pairwise_tukeyhsd(df_tukey['data'], df_tukey['group'])
     tukey.summary()
     """
-    # import pandas as pd
+    import pandas as pd
     df_tukey = pd.DataFrame(columns=['data','group'])
 
     for k,v in  data.items():
