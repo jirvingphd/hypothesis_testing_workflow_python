@@ -1,5 +1,6 @@
+import pandas as pd
 
-def Cohen_d(group1, group2, correction = False):
+def Cohen_d():
     """Compute Cohen's d
     d = (group1.mean()-group2.mean())/pool_variance.
     pooled_variance= (n1 * var1 + n2 * var2) / (n1 + n2)
@@ -19,26 +20,26 @@ def Cohen_d(group1, group2, correction = False):
     > Large Effect = 0.8
     
     """
-    import scipy.stats as stats
-    import scipy   
-    import numpy as np
-    N = len(group1)+len(group2)
-    diff = group1.mean() - group2.mean()
+    # import scipy.stats as stats
+    # import scipy   
+    # import numpy as np
+    # N = len(group1)+len(group2)
+    # diff = group1.mean() - group2.mean()
 
-    n1, n2 = len(group1), len(group2)
-    var1 = group1.var()
-    var2 = group2.var()
+    # n1, n2 = len(group1), len(group2)
+    # var1 = group1.var()
+    # var2 = group2.var()
 
-    # Calculate the pooled threshold as shown earlier
-    pooled_var = (n1 * var1 + n2 * var2) / (n1 + n2)
+    # # Calculate the pooled threshold as shown earlier
+    # pooled_var = (n1 * var1 + n2 * var2) / (n1 + n2)
     
-    # Calculate Cohen's d statistic
-    d = diff / np.sqrt(pooled_var)
+    # # Calculate Cohen's d statistic
+    # d = diff / np.sqrt(pooled_var)
     
-    ## Apply correction if needed
-    if (N < 50) & (correction==True):
-        d=d * ((N-3)/(N-2.25))*np.sqrt((N-2)/N)
-    
+    # ## Apply correction if needed
+    # if (N < 50) & (correction==True):
+    #     d=d * ((N-3)/(N-2.25))*np.sqrt((N-2)/N)
+    d=[]
     return d
 
 
@@ -107,3 +108,25 @@ def find_outliers_IQR(data):
     idx_outs = (df_b>upper_limit) | (df_b<lower_limit)
 
     return idx_outs
+
+
+def prep_data_for_tukeys(data):
+    """Accepts a dictionary with group names as the keys 
+    and pandas series as the values. 
+    
+    Returns a dataframe ready for tukeys test:
+    - with a 'data' column and a 'group' column for sms.stats.multicomp.pairwise_tukeyhsd 
+    
+    Example Use:
+    df_tukey = prep_data_for_tukeys(grp_data)
+    tukey = sms.stats.multicomp.pairwise_tukeyhsd(df_tukey['data'], df_tukey['group'])
+    tukey.summary()
+    """
+    # import pandas as pd
+    df_tukey = pd.DataFrame(columns=['data','group'])
+
+    for k,v in  data.items():
+        grp_df = v.rename('data').to_frame() 
+        grp_df['group'] = k
+        df_tukey=pd.concat([df_tukey,grp_df],axis=0)
+    return df_tukey
