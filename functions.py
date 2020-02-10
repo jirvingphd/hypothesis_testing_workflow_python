@@ -1,8 +1,13 @@
+import pandas as pd
 
+<<<<<<< HEAD
 import scipy.stats as stats
 import pandas as pd
 import numpy as np
 def Cohen_d(group1, group2, correction = False):
+=======
+def Cohen_d():
+>>>>>>> online-ds-pt-100719-study-group
     """Compute Cohen's d
     d = (group1.mean()-group2.mean())/pool_variance.
     pooled_variance= (n1 * var1 + n2 * var2) / (n1 + n2)
@@ -41,7 +46,6 @@ def Cohen_d(group1, group2, correction = False):
     ## Apply correction if needed
     if (N < 50) & (correction==True):
         d=d * ((N-3)/(N-2.25))*np.sqrt((N-2)/N)
-    
     return d
 
 
@@ -60,6 +64,8 @@ def find_outliers_Z(data):
     >> idx_outs = find_outliers_df(df['AdjustedCompensation'])
     >> good_data = df[~idx_outs].copy()
     """
+    import pandas as pd
+    import numpy as np
     import scipy.stats as stats
     import pandas as pd
     import numpy as np
@@ -110,3 +116,25 @@ def find_outliers_IQR(data):
     idx_outs = (df_b>upper_limit) | (df_b<lower_limit)
 
     return idx_outs
+
+
+def prep_data_for_tukeys(data):
+    """Accepts a dictionary with group names as the keys 
+    and pandas series as the values. 
+    
+    Returns a dataframe ready for tukeys test:
+    - with a 'data' column and a 'group' column for sms.stats.multicomp.pairwise_tukeyhsd 
+    
+    Example Use:
+    df_tukey = prep_data_for_tukeys(grp_data)
+    tukey = sms.stats.multicomp.pairwise_tukeyhsd(df_tukey['data'], df_tukey['group'])
+    tukey.summary()
+    """
+    # import pandas as pd
+    df_tukey = pd.DataFrame(columns=['data','group'])
+
+    for k,v in  data.items():
+        grp_df = v.rename('data').to_frame() 
+        grp_df['group'] = k
+        df_tukey=pd.concat([df_tukey,grp_df],axis=0)
+    return df_tukey
