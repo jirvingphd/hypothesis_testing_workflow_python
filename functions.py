@@ -20,26 +20,25 @@ def Cohen_d():
     > Large Effect = 0.8
     
     """
-    # import scipy.stats as stats
-    # import scipy   
-    # import numpy as np
-    # N = len(group1)+len(group2)
-    # diff = group1.mean() - group2.mean()
+    import scipy.stats as stats
+    import scipy   
+    import numpy as np
+    N = len(group1)+len(group2)
+    diff = group1.mean() - group2.mean()
 
-    # n1, n2 = len(group1), len(group2)
-    # var1 = group1.var()
-    # var2 = group2.var()
+    n1, n2 = len(group1), len(group2)
+    var1 = group1.var()
+    var2 = group2.var()
 
-    # # Calculate the pooled threshold as shown earlier
-    # pooled_var = (n1 * var1 + n2 * var2) / (n1 + n2)
+    # Calculate the pooled threshold as shown earlier
+    pooled_var = (n1 * var1 + n2 * var2) / (n1 + n2)
     
-    # # Calculate Cohen's d statistic
-    # d = diff / np.sqrt(pooled_var)
+    # Calculate Cohen's d statistic
+    d = diff / np.sqrt(pooled_var)
     
-    # ## Apply correction if needed
-    # if (N < 50) & (correction==True):
-    #     d=d * ((N-3)/(N-2.25))*np.sqrt((N-2)/N)
-    d=[]
+    ## Apply correction if needed
+    if (N < 50) & (correction==True):
+        d=d * ((N-3)/(N-2.25))*np.sqrt((N-2)/N)
     return d
 
 
