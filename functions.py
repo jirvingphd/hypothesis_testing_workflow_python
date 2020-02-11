@@ -1,6 +1,6 @@
 import pandas as pd
 
-def Cohen_d():
+def Cohen_d(group1,group2):
     """Compute Cohen's d
     d = (group1.mean()-group2.mean())/pool_variance.
     pooled_variance= (n1 * var1 + n2 * var2) / (n1 + n2)
