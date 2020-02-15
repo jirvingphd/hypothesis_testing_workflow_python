@@ -127,11 +127,14 @@ def prep_data_for_tukeys(data):
     tukey = sms.stats.multicomp.pairwise_tukeyhsd(df_tukey['data'], df_tukey['group'])
     tukey.summary()
     """
-    import pandas as pd
+    
     df_tukey = pd.DataFrame(columns=['data','group'])
-
     for k,v in  data.items():
         grp_df = v.rename('data').to_frame() 
         grp_df['group'] = k
-        df_tukey=pd.concat([df_tukey,grp_df],axis=0)
+        df_tukey=pd.concat([df_tukey, grp_df],axis=0)
+
+	## New lines added to ensure compatibility with tukey's test
+    df_tukey['group'] = df_tukey['group'].astype('str')
+    df_tukey['data'] = df_tukey['data'].astype('float')
     return df_tukey
