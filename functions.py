@@ -115,7 +115,7 @@ def find_outliers_IQR(data):
     return idx_outs
 
 
-def prep_data_for_tukeys(data):
+def prep_data_for_tukeys(data, data_col = 'data',group_col='group'):
     """Accepts a dictionary with group names as the keys 
     and pandas series as the values. 
     
@@ -127,14 +127,15 @@ def prep_data_for_tukeys(data):
     tukey = sms.stats.multicomp.pairwise_tukeyhsd(df_tukey['data'], df_tukey['group'])
     tukey.summary()
     """
+    import pandas as pd
     
-    df_tukey = pd.DataFrame(columns=['data','group'])
+    df_tukey = pd.DataFrame(columns=[data_col,group_col])
     for k,v in  data.items():
-        grp_df = v.rename('data').to_frame() 
-        grp_df['group'] = k
+        grp_df = v.rename(data_col).to_frame() 
+        grp_df[group_col] = k
         df_tukey=pd.concat([df_tukey, grp_df],axis=0)
 
 	## New lines added to ensure compatibility with tukey's test
-    df_tukey['group'] = df_tukey['group'].astype('str')
-    df_tukey['data'] = df_tukey['data'].astype('float')
+    df_tukey[group_col] = df_tukey[group_col].astype('str')
+    df_tukey[data_col] = df_tukey[data_col].astype('float')
     return df_tukey
